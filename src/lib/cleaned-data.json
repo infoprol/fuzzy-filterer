@@ -1,0 +1,222 @@
+[
+  {
+    "isActive": true,
+    "price": 20,
+    "picture": "/img/products/N0CA_430.png",
+    "name": "Damage Reverse Oil Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "oil", "conditioner"],
+    "legacyId": "001",
+    "imageUrl": "https://image.dummyjson.com/380x380/631b8e/1da7b6?text=Damage%20Reverse%20Oil%20Conditioner&fontFamily=ubuntu&fontSize=24",
+    "id": "001"
+  },
+  {
+    "isActive": true,
+    "price": 22,
+    "picture": "/img/products/N0EN01_430.png",
+    "name": "Volume Advance Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "conditioner"],
+    "legacyId": "002",
+    "imageUrl": "https://image.dummyjson.com/380x380/0812e1/78867e?text=Volume%20Advance%20Conditioner&fontFamily=ubuntu&fontSize=24",
+    "id": "002"
+  },
+  {
+    "isActive": true,
+    "price": 30,
+    "picture": "/img/products/N0EY01_430.png",
+    "name": "Volume Advance Shampoo",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "shampoo"],
+    "legacyId": "003",
+    "imageUrl": "https://image.dummyjson.com/380x380/17b563/f0b8fb?text=Volume%20Advance%20Shampoo&fontFamily=poppins&fontSize=24",
+    "id": "003"
+  },
+  {
+    "isActive": true,
+    "price": 20,
+    "picture": "/img/products/N0FP_430.png",
+    "name": "Damage Reverse Oil Shampoo",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "oil", "shampoo"],
+    "legacyId": "004",
+    "imageUrl": "https://image.dummyjson.com/380x380/d0d560/243eec?text=Damage%20Reverse%20Oil%20Shampoo&fontFamily=dosis&fontSize=24",
+    "id": "004"
+  },
+  {
+    "isActive": true,
+    "price": 7,
+    "picture": "/img/products/N0H101_430.png",
+    "name": "Color Sustain Pro",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "treatment"],
+    "legacyId": "005",
+    "imageUrl": "https://image.dummyjson.com/380x380/083af7/ab5420?text=Color%20Sustain%20Pro&fontFamily=quicksand&fontSize=24",
+    "id": "005"
+  },
+  {
+    "isActive": true,
+    "price": 38,
+    "picture": "/img/products/N0J801_430.png",
+    "name": "Damage Reverse Hair Serum",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "serum"],
+    "legacyId": "006",
+    "imageUrl": "https://image.dummyjson.com/380x380/9e3653/27882e?text=Damage%20Reverse%20Hair%20Serum&fontFamily=bitter&fontSize=24",
+    "id": "006"
+  },
+  {
+    "isActive": true,
+    "price": 38,
+    "picture": "/img/products/N0J901_430.png",
+    "name": "Damage Reverse Restorative Hair Treatment",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "treatment"],
+    "legacyId": "007",
+    "imageUrl": "https://image.dummyjson.com/380x380/54c4b5/28dc3f?text=Damage%20Reverse%20Restorative%20Hair%20Treatment&fontFamily=qwigley&fontSize=24",
+    "id": "007"
+  },
+  {
+    "isActive": true,
+    "price": 27,
+    "picture": "/img/products/N0PL01_430.png",
+    "name": "Super Sleek Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "conditioner"],
+    "legacyId": "008",
+    "imageUrl": "https://image.dummyjson.com/380x380/291f11/616ac4?text=Super%20Sleek%20Conditioner&fontFamily=comfortaa&fontSize=24",
+    "id": "008"
+  },
+  {
+    "isActive": true,
+    "price": 17,
+    "picture": "/img/products/N0YJ01_430.png",
+    "name": "Rare Blend Oil",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "oil", "rare blend"],
+    "legacyId": "009",
+    "imageUrl": "https://image.dummyjson.com/380x380/d66971/86d35f?text=Rare%20Blend%20Oil&fontFamily=qwigley&fontSize=24",
+    "id": "009"
+  },
+  {
+    "isActive": true,
+    "price": 22,
+    "picture": "/img/products/N08X_430.png",
+    "name": "Dry Recovery Hydrating Shampoo",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "hydrating", "shampoo"],
+    "legacyId": "010",
+    "imageUrl": "https://image.dummyjson.com/380x380/0a59d4/e4f24a?text=Dry%20Recovery%20Hydrating%20Shampoo&fontFamily=satisfy&fontSize=24",
+    "id": "010"
+  },
+  {
+    "isActive": true,
+    "price": 22,
+    "picture": "/img/products/N08Y_430.png",
+    "name": "Dry Recovery Hydrating Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "hydrating", "conditioner"],
+    "legacyId": "011",
+    "imageUrl": "https://image.dummyjson.com/380x380/9925f0/f340df?text=Dry%20Recovery%20Hydrating%20Conditioner&fontFamily=lobster&fontSize=24",
+    "id": "011"
+  },
+  {
+    "isActive": true,
+    "price": 12,
+    "picture": "/img/products/N12R01_430.png",
+    "name": "Rare Blend Deep Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "conditioner", "rare blend"],
+    "legacyId": "012",
+    "imageUrl": "https://image.dummyjson.com/380x380/0b9896/c801d1?text=Rare%20Blend%20Deep%20Conditioner&fontFamily=comfortaa&fontSize=24",
+    "id": "012"
+  },
+  {
+    "isActive": true,
+    "price": 25,
+    "picture": "/img/products/N13J01_430.png",
+    "name": "Rare Blend Moisture-Rich Cleansing Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "cleansing", "conditioner", "rare blend"],
+    "legacyId": "013",
+    "imageUrl": "https://image.dummyjson.com/380x380/833aca/804422?text=Rare%20Blend%20Moisture-Rich%20Cleansing%20Conditioner&fontFamily=pacifico&fontSize=24",
+    "id": "013"
+  },
+  {
+    "isActive": true,
+    "price": 17,
+    "picture": "/img/products/N15E01_430.png",
+    "name": "Rare Blend Protecting Treatment",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "treatment", "rare blend"],
+    "legacyId": "014",
+    "imageUrl": "https://image.dummyjson.com/380x380/479577/3a2594?text=Rare%20Blend%20Protecting%20Treatment&fontFamily=cookie&fontSize=24",
+    "id": "014"
+  },
+  {
+    "isActive": true,
+    "price": 15,
+    "picture": "/img/products/N17R01_430.png",
+    "name": "Rare Blend Oil Rejuvenating Therapy Lightweight Texture",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "oil", "rare blend"],
+    "legacyId": "015",
+    "imageUrl": "https://image.dummyjson.com/380x380/2e402a/f85848?text=Rare%20Blend%20Oil%20Rejuvenating%20Therapy%20Lightweight%20Texture&fontFamily=poppins&fontSize=24",
+    "id": "015"
+  },
+  {
+    "isActive": false,
+    "price": 25,
+    "picture": "/img/products/N098_430.png",
+    "name": "Damage Reverse Restorative Hair Treatment",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "treatment"],
+    "legacyId": "016",
+    "imageUrl": "https://image.dummyjson.com/380x380/662b15/c6648a?text=Damage%20Reverse%20Restorative%20Hair%20Treatment&fontFamily=pacifico&fontSize=24",
+    "id": "016"
+  },
+  {
+    "isActive": true,
+    "price": 17,
+    "picture": "/img/products/N16201_430.png",
+    "name": "Rare Blend Infusion Shampoo",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "shampoo", "rare blend"],
+    "legacyId": "017",
+    "imageUrl": "https://image.dummyjson.com/380x380/75ccc8/3b3c7f?text=Rare%20Blend%20Infusion%20Shampoo&fontFamily=satisfy&fontSize=24",
+    "id": "017"
+  },
+  {
+    "isActive": true,
+    "price": 20,
+    "picture": "/img/products/N16401_430.png",
+    "name": "Damage Reverse Thickening Shampoo",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "shampoo"],
+    "legacyId": "018",
+    "imageUrl": "https://image.dummyjson.com/380x380/8581a2/b9a793?text=Damage%20Reverse%20Thickening%20Shampoo&fontFamily=lobster&fontSize=24",
+    "id": "018"
+  },
+  {
+    "isActive": false,
+    "price": 23,
+    "picture": "/img/products/N16501_430.png",
+    "name": "Damage Reverse Thickening Conditioner",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "conditioner"],
+    "legacyId": "019",
+    "imageUrl": "https://image.dummyjson.com/380x380/31e69e/13b7a5?text=Damage%20Reverse%20Thickening%20Conditioner&fontFamily=marhey&fontSize=24",
+    "id": "019"
+  },
+  {
+    "isActive": false,
+    "price": 40,
+    "picture": "/img/products/N19601_430.png",
+    "name": "Rare Blend Oil Moisture Therapy Medium Texture",
+    "about": "Dolor voluptate velit consequat duis. Aute ad officia fugiat esse anim exercitation voluptate excepteur pariatur sit culpa duis qui esse. Labore amet ad eu veniam nostrud minim labore aliquip est sint voluptate nostrud reprehenderit. Ipsum nostrud culpa consequat reprehenderit.",
+    "tags": ["ojon", "texture"],
+    "legacyId": "020",
+    "imageUrl": "https://image.dummyjson.com/380x380/444940/88e1ed?text=Rare%20Blend%20Oil%20Moisture%20Therapy%20Medium%20Texture&fontFamily=dosis&fontSize=24",
+    "id": "020"
+  }
+]
