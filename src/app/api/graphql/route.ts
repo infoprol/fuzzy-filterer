@@ -17,8 +17,22 @@ const typeDefs = gql`
     tags: [String]
   }
 
+  type Product {
+  id: String!
+  isActive: Boolean
+  price: Float
+  name: String!
+  about: String
+  legacyId: String
+  imageUrl: String
+  tags: [String]
+}
+
   type Query {
     getItems(searchString: String): [Item]
+    searchProducts(searchtText: String, tags:[String]): [String!]!
+    getProduct(id:String!): Product
+    getTags: [String!]!
   }
 `
 
