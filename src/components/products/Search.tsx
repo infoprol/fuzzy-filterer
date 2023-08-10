@@ -24,6 +24,7 @@ const SEARCH_QUERY = gql`
       isActive
       price
       imageUrl
+      name
       about
       tags
       legacyId
