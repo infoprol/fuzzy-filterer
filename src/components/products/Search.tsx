@@ -1,13 +1,13 @@
 "use client"
 
-import { ChangeEvent, KeyboardEventHandler, Suspense, useCallback, useEffect, useRef, useState, useTransition } from "react"
+import { ChangeEvent, KeyboardEventHandler, Suspense, startTransition, useCallback, useEffect, useRef, useState, useTransition } from "react"
 // import "swiper/css"
 // import "swiper/css/effect-coverflow"
 // import "swiper/css/pagination"
 // import "swiper/css/navigation"
 //import { SwiperOptions } from "swiper/types"
 import { motion, AnimatePresence } from "framer-motion"
-import { useLazyQuery, useSuspenseQuery, gql } from "@apollo/client"
+import { useLazyQuery, useSuspenseQuery, gql, useQuery } from "@apollo/client"
 //import { gql } from 'graphql-tag'
 import useOutsideClick from "@/hooks/useOutsideClick"
 import { useRouter } from "next/navigation"
@@ -38,6 +38,7 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
   const router = useRouter()
 
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false)
+  //const setSuggestionsOpen = (t:boolean) => console.log(`setSuggestionsOpen(${t}`)
   const searchBarRef = useRef(null)
   useOutsideClick(searchBarRef, () => setSuggestionsOpen(false))
 
@@ -47,32 +48,37 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
     tags: [],  //tags ? tags as string[] : [],
   })
   const { searchText, tags } = qryArgs
+  //const suggestionsOpen = searchText !== ''
+  
+  const { data } = useSuspenseQuery(SEARCH_QUERY, {
+    variables: {
+      searchText,
+      tags,
+    }
+  })
+  
+  console.log(`got data from useQuery: ${JSON.stringify({data},undefined, "\n")}`)
 
-  // 
-  // const ans = useSuspenseQuery(SEARCH_QUERY, {
-  //   variables: {
-  //     searchText,
-  //     tags,
-  //   }
-  // }) 
-
-  //console.log(`HEY HEY HEY MATT\n\n${JSON.stringify(ans)}`)
-
-  const { data } = { data: { searchProducts: [] } }
+  //const { data } = { data: { searchProducts: [] } }
   //TODO fix these castes after codegen-ing the graphql types
-  const { searchProducts:products } = data as { searchProducts: Product[] }
+  const { searchProducts:products } = data ? data as { searchProducts: Product[] } : { searchProducts:[] }
+
+  
+
+  console.log(`HEY HEY HEY MATT\n\n${JSON.stringify({products}, undefined, 2)}`)
+
+
 
 
   //useEffect(() => setProducts(products as Product[]), [products, setProducts])
 
-  const [isPending, startTransition] = useTransition()
+ //const [isPending, startTransition] = useTransition()
 
-  const toggleTag = useCallback(
-
+  const toggleTag = 
     (tag: string) => {
 
       console.log(`tag ${tag} toggled!`)
-      startTransition(() => {
+     // startTr ansition(() => {
 
 
         console.log("\n\n\n\nHEY MATT MATT startTransition on setQryArgs STARTING TO RENDER")
@@ -85,15 +91,14 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
           tags: newTags,
         })
 
+        //refetch({ variables: { searchText, tags } })
+
         console.log(`tag toggle transition complete for tag ${tag}.`)
-      })
-    },
-
-    [qryArgs])
-
+    //  })
+    }
   // )
 
-  const handleSearch = useCallback(
+  const handleSearch = //useCallback(
 
     (event: ChangeEvent<HTMLInputElement>) => {
       const searchText = event.target.value
@@ -106,14 +111,14 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
           ...qryArgs,
           searchText,
         })
+
         setSuggestionsOpen(true)
     
-
         console.log("\n\n\n\nHEY MATT MATT startTransition on setQryArgs end end end ")
       })
-    },  
+    }
     
-    [qryArgs])
+   //[qryArgs])
 
   const nameSuggests = products.map(({ id, name }) => ({
     text: name,
@@ -126,14 +131,14 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
     onClick: () => {
       console.log(`toggle tag ${tag}`)
 
-      startTransition(() => {
+      //ition(() => {
 
         console.log("\n\n\n\nHEY MATT MATT startTransition on toggletatg STARTING TO RENDER")
         toggleTag(tag)
         setSuggestionsOpen(false)
 
         console.log("\n\n\n\nHEY MATT MATT startTransition on starting tags tags")
-      })
+     //})
     },
   }))
 
@@ -167,7 +172,6 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
             value={searchText}
             onKeyDown={handleSearchInputKeys}
           />
-          <Suspense>
           <div className={styles.suggestionsContainer}>
             {suggestions.map((suggestion, indx) => (
               <div className={styles.suggestion} key={indx}>
@@ -175,7 +179,6 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
               </div>
             ))}
           </div>
-          </Suspense>
         </div>
       </div>    </div>
   )
@@ -273,13 +276,12 @@ console.log("\n\n\n\nHEY MATT MATT search (just search) STARTING TO RENDER")
 
       <div>
         <Suspense>
-        <SearchBar setProducts={setProducts} availableTags={availableTags} />
+        <SearchBar setProducts={setProducts} availableTags={availableTags} /></Suspense>
         {resultsKind === "animate" ? (
           <FramerResults products={products} />
         ) : (
           <SwiperResults products={products} />
         )}
-        </Suspense>
       </div>
     </>
   )

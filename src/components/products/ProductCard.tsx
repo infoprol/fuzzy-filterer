@@ -2,10 +2,9 @@
 
 import React, { useTransition } from "react"
 import Image from "next/image"
-import { Product } from "../types"
+import { Product } from "@/lib/types"
 import styles from "./ProductCard.module.css"
 import { useRouter } from "next/navigation"
-import { Routes } from "@blitzjs/next"
 
 export type ProductCardProps = {
   product: Product
@@ -15,7 +14,7 @@ export function ProductCard({ product }: ProductCardProps) {
   const router = useRouter()
   const [_isPending, startTransition] = useTransition()
 
-  const handleGoto = (e) => {
+  const handleGoto = () => {
     startTransition(() => router.push(`/products/${product.id}`))
   }
   return (
