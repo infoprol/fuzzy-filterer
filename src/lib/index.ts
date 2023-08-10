@@ -4,7 +4,6 @@
 //
 
 import Fuse from "fuse.js"
-import products from "./cleaned-data.json"
 import { Product } from "@/lib/types"
 
 import { startServerAndCreateNextHandler } from '@as-integrations/next'
@@ -12,8 +11,11 @@ import { ApolloServer } from '@apollo/server'
 
 import { GetProductInput, SearchProductsInput, } from '@/lib/types/graphql'
 import allProductsRaw from '@/lib/cleaned-data.json'
-import { gql } from '@apollo/client'
+import { typeDefs } from '@/lib/types/graphql'
 
+
+
+const allProducts = allProductsRaw as Product[]
 
 
 
@@ -32,14 +34,14 @@ function consFuse(
     data: Product[] | undefined
   } = { opts: undefined, data: undefined }
 ): Fuse<Product> {
-  data = (data || products) as Product[]
+  data = (data || allProducts) as Product[]
   opts = (opts || consFuseOpts) as object
 
   const fuse = new Fuse(data, opts)
   return fuse
 }
 
-export const productsFuse = new Fuse<Product>(products, { keys: ["name", "tags"] })
+export const productsFuse = new Fuse<Product>(allProducts, { keys: ["name", "tags"] })
 
 
 
@@ -59,8 +61,6 @@ export const productsFuse = new Fuse<Product>(products, { keys: ["name", "tags"]
 
 // const typeDefs = await getTypeDefs()
 
-const allProducts = allProductsRaw as Product[]
-
 //typeDefs
 ///const filePath = path.resolve('.', 'src/graphql/schemal.graphql')
 //const typeDefs = readFileSync(filePath, 'utf-8')
@@ -74,24 +74,9 @@ const allProducts = allProductsRaw as Product[]
 //   }
 // }, undefined, "\n"))
 
-const typeDefs = gql`
-type Product {
-  id: String!
-  isActive: Boolean
-  price: Float
-  name: String!
-  about: String
-  legacyId: String
-  imageUrl: String
-  tags: [String]
-}
 
-type Query {
-  searchProducts(searchText: String, tags: [String]): [Product!]!
-  getProduct(id: String!): Product
-  getTags: [String!]!
-}
-`
+//// apollo stuff
+// apollo server stuff
 
 //helper
 const consIsTagged = (tags: string[]) => (p: Product) => {
@@ -102,20 +87,24 @@ const consIsTagged = (tags: string[]) => (p: Product) => {
   return true
 }
 
+export const allAvailableTags = 
+  Object.keys(
+    allProducts
+      .reduce((acc: string[], { tags }) => [...acc, ...tags], [] as string[])
+      .reduce((acc: object, elem: string) => ({ [elem]: true, ...acc }), {})
+  ).sort()  // not overly concerned about how the tags are sorted, just so it is consistent (as of this writing, anyway).
+
+
+export const getProductById = (id:string) => allProducts.filter(x => x.id === (id as string)).at(0)
+
 
 //resolvers
 const resolvers = {
   Query: {
-    getTags: () =>
-        Object.keys(
-          allProducts
-            .reduce((acc: string[], { tags }) => [...acc, ...tags], [] as string[])
-            .reduce((acc: object, elem: string) => ({ [elem]: true, ...acc }), {})
-        ).sort(),  // not overly concerned about how the tags are sorted, just so it is consistent (as of this writing, anyway).
+    getTags: () => allAvailableTags,  // not overly concerned about how the tags are sorted, just so it is consistent (as of this writing, anyway).
 
-    getProduct: (_: any, {id}:GetProductInput) =>
-        allProducts.filter(x => x.id === (id as string)).at(0),
-
+    getProduct: (_: any, {id}:GetProductInput) => getProductById(id),
+        
     searchProducts: (_: any, {searchText, tags}:SearchProductsInput) => {
       
       // empty search text
@@ -135,12 +124,8 @@ const resolvers = {
       
       return products
     }
-
-  }
-  
+  }  
 }
-
-
 
 const server = new ApolloServer({
   resolvers,
@@ -148,4 +133,37 @@ const server = new ApolloServer({
 })
 
 export const apolloNextHandler = startServerAndCreateNextHandler(server)
+
+
+
+
+// apollo client stuff
+
+import { ApolloLink, HttpLink } from "@apollo/client"
+import {
+  ApolloNextAppProvider,
+  NextSSRInMemoryCache,
+  NextSSRApolloClient,
+  SSRMultipartLink,
+} from "@apollo/experimental-nextjs-app-support/ssr"
+
+export function makeApolloClient() {
+  const httpLink = new HttpLink({
+      uri: process.env.GRAPHQL_SERVER_URI,
+      fetchOptions: { cache: "no-store" },
+  })
+
+  return new NextSSRApolloClient({
+      cache: new NextSSRInMemoryCache(),
+      link:
+          typeof window === "undefined"
+              ? ApolloLink.from([
+                    new SSRMultipartLink({
+                        stripDefer: true,
+                    }),
+                    httpLink,
+                ])
+              : httpLink,
+  })
+}
 

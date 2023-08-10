@@ -1,6 +1,7 @@
 "use client"
 
-import { ChangeEvent, KeyboardEventHandler, Suspense, startTransition, useCallback, useEffect, useRef, useState, useTransition } from "react"
+import { ChangeEvent, KeyboardEventHandler, RefObject, Suspense, 
+createRef, startTransition, useCallback, useEffect, useRef, useState, useTransition } from "react"
 // import "swiper/css"
 // import "swiper/css/effect-coverflow"
 // import "swiper/css/pagination"
@@ -40,7 +41,7 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
 
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false)
   //const setSuggestionsOpen = (t:boolean) => console.log(`setSuggestionsOpen(${t}`)
-  const searchBarRef = useRef(null)
+  const searchBarRef: RefObject<HTMLDivElement> = createRef()
   useOutsideClick(searchBarRef, () => setSuggestionsOpen(false))
 
 
