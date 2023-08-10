@@ -17,3 +17,11 @@ Content-Type: application/json
   }
 }
 
+
+
+
+
+
+
+###
+GET https://countries.trevorblades.com/

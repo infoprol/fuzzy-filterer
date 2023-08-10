@@ -18,7 +18,7 @@ const typeDefs = gql`
   }
 
   type Product {
-  id: String!
+  id: ID!
   isActive: Boolean
   price: Float
   name: String!
@@ -31,7 +31,7 @@ const typeDefs = gql`
   type Query {
     getItems(searchString: String): [Item]
     searchProducts(searchtText: String, tags:[String]): [String!]!
-    getProduct(id:String!): Product
+    getProduct(id:ID!): Product
     getTags: [String!]!
   }
 `

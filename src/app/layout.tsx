@@ -2,7 +2,7 @@ import React from "react"
 import { Metadata } from "next"
 import WrappedProviders from "@/app/WrappedProviders"
 
-import styles from "src/styles/Home.module.css"
+import styles from "@/app/Home.module.css"
 
 export const metadata: Metadata = {
   title: "FF - the Fuzzy Fiterer",

@@ -1,0 +1,27 @@
+
+fragment ProductFields on Product {
+  id
+  isActive
+  price
+  name
+  about
+  legacyId
+  tags
+}
+
+
+query SearchProducts($searchText: String = "", $tags: [String]) {
+  searchResults(searchText: $searchText, tags: $tags) {
+    ...ProductFields
+  }[]
+}
+
+query GetProduct($id: ID!) {
+  product {
+    ...ProductFields
+  }
+}
+
+query GetAvailableTags {
+  tags 
+}
