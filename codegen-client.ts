@@ -8,7 +8,7 @@ const clientConfig: CodegenConfig = {
   ],
   ignoreNoDocuments: true,
   generates: {
-    "src/lib/gql-generated/": {
+    "src/lib/graphql-codegened/client/": {
       plugins: [
         "typescript", 
         "typescript-operations",

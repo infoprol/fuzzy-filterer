@@ -7,8 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "gen-gql:schema": "apollo service:download --endpoint=http://localhost:3000/api/graphql/ graphql-schema.json",
-    "gen-gql": "npm run dev && npm run gen-gql:schema"
+    "gen-gql:server": "graphql-codegen --config codegen-server.ts",
+    "gen-gql:client": "graphql-codegen --config codegen-client.ts",
+    "gen-gql": "npm run gen-gql:server && npm run gen-gql:client",
+    "gen-gql:clean": "rm -vRf src/lib/graphql-codegened"
   },
   "dependencies": {
     "@apollo/client": "^3.8.0",
