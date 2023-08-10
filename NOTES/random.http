@@ -1,0 +1,19 @@
+
+
+###
+POST https://fragrant-shadow-9470.fly.dev/
+Content-Type: application/json
+{
+  "data": {
+  "__schema": {
+    "queryType": {
+      "fields": [
+        {"name": "name"},
+        {"name": "kind"},
+        {"name":"description"}
+        ]
+      }
+    }
+  }
+}
+

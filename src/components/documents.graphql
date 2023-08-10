@@ -1,0 +1,42 @@
+type Product {
+  id: String!
+  isActive: Boolean
+  price: Float
+  name: String!
+  about: String
+  legacyId: String
+  imageUrl: String
+  tags: [string]
+}
+
+fragment ProductFieldsOnProduct on Product {
+  id
+  isActive
+  price
+  name
+  about
+  legacyId
+  imageUrl
+  tags
+}
+
+
+
+
+
+query {
+  SearchProducts($searchQuery: String = "", $tags: [String] = []) {
+   products {
+    ...ProductFieldsOnProduct
+   }!
+  }
+
+  GetProduct($id: String!) {
+    product {
+    ...ProductFieldsOnProduct
+    }
+  }
+
+  GetTags { tag: [String] }
+}
+

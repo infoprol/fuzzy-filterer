@@ -1,6 +1,6 @@
 import React from "react"
 import { Metadata } from "next"
-import WrappedProviders from "src/app/WrappedProviders"
+import WrappedProviders from "@/app/WrappedProviders"
 
 import styles from "src/styles/Home.module.css"
 

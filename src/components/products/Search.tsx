@@ -1,85 +1,127 @@
 "use client"
 
-import { usePaginatedQuery } from "@blitzjs/rpc"
-
-import { ChangeEvent, KeyboardEventHandler, useCallback, useEffect, useRef, useState } from "react"
-import { useRouterQuery } from "@blitzjs/next"
+import { ChangeEvent, KeyboardEventHandler, Suspense, useCallback, useEffect, useRef, useState, useTransition } from "react"
 // import "swiper/css"
 // import "swiper/css/effect-coverflow"
 // import "swiper/css/pagination"
 // import "swiper/css/navigation"
 //import { SwiperOptions } from "swiper/types"
 import { motion, AnimatePresence } from "framer-motion"
-
-import useOutsideClick from "src/lib/hooks/useOutsideClick"
-import getProducts from "../queries/getProducts"
+import { useLazyQuery, gql, useSuspenseQuery } from "@apollo/client"
+//import { gql } from 'graphql-tag'
+import useOutsideClick from "@/hooks/useOutsideClick"
 import { useRouter } from "next/navigation"
 import styles from "./Search.module.css"
 import ProductCard from "./ProductCard"
 import Tags from "./Tags"
-import { Product } from "../types"
+import { Product } from "@/lib/types"
 
-const SearchBar = ({ setProducts }) => {
+
+const SEARCH_QUERY = gql`
+  query GetItems($searchString: String = "", $tags: [String] = []) {
+    getItems(searchString: $searchString, tags: $tags) {
+      id
+      isActive
+      price
+      pictureUrl
+      about
+      tags
+      legacyId
+    }
+  }
+`
+ 
+
+type SetProductsType = (pp: Product[]) => void
+const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType, availableTags: string[] }) => {
+  
   const router = useRouter()
-
-  const qry = useRouterQuery()
 
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false)
   const searchBarRef = useRef(null)
   useOutsideClick(searchBarRef, () => setSuggestionsOpen(false))
 
-  const [qryArgs, setQryArgs] = useState<{ query: string; tags: string[] }>({
-    query: qry["query"] !== undefined ? (qry["query"] as string) : "",
-    tags: qry["tags"] !== undefined ? [qry["tags"] as string] : [],
-  })
-  const searchText = qryArgs.query
-  const [{ products, availableTags }] = usePaginatedQuery(getProducts, qryArgs)
 
-  useEffect(() => setProducts(products), [products, setProducts])
+  const [qryArgs, setQryArgs] = useState<{ searchText: string; tags: string[] }>({
+    searchText: '',  //query ? (query as string) : "",
+    tags: [],  //tags ? tags as string[] : [],
+  })
+  const { searchText, tags } = qryArgs
+
+  const { data } = useSuspenseQuery(SEARCH_QUERY, {
+    variables: {
+      searchText,
+      tags,
+    }
+  })
+
+  //TODO fix these castes after codegen-ing the graphql types
+  const products = (data as { products:Product[] }).products as Product[]
+
+
+  useEffect(() => setProducts(products as Product[]), [products, setProducts])
+
+  const [isPending, startTransition] = useTransition()
 
   const toggleTag = useCallback(
+
     (tag: string) => {
+
       console.log(`tag ${tag} toggled!`)
-      const newTags = qryArgs.tags.includes(tag)
-        ? qryArgs.tags.filter((x) => x !== tag)
-        : [...qryArgs.tags, tag]
-      setQryArgs({
-        ...qryArgs,
-        query: "",
-        tags: newTags,
+      startTransition(() => {
+
+        const newTags = qryArgs.tags.includes(tag)
+          ? qryArgs.tags.filter((x) => x !== tag)
+          : [...qryArgs.tags, tag]
+        setQryArgs({
+          ...qryArgs,
+          searchText: "",
+          tags: newTags,
+        })
+
+        console.log(`tag toggle transition complete for tag ${tag}.`)
       })
     },
-    [qryArgs]
-  )
+
+    [qryArgs])
 
   // )
 
   const handleSearch = useCallback(
+
     (event: ChangeEvent<HTMLInputElement>) => {
-      const qryTxt = event.target.value
-      setQryArgs({
-        ...qryArgs,
-        query: qryTxt,
+      const searchText = event.target.value
+      
+      startTransition(() => {
+        
+        setQryArgs({
+          ...qryArgs,
+          searchText,
+        })
+        setSuggestionsOpen(true)
+    
       })
-      //setSearchText(event.target.value)
-      setSuggestionsOpen(true)
-    },
-    [qryArgs]
-  )
+    },  
+    
+    [qryArgs])
 
   const nameSuggests = products.map(({ id, name }) => ({
     text: name,
-    onClick: async (e) => {
-      await router.push(`/products/${id}`)
-      //await router.push(Routes.ShowProductPage({ productId: id }))
+    onClick: () => {
+      router.push(`/products/${id}`)
     },
   }))
   const tagSuggests = qryArgs.tags.map((tag) => ({
     text: tag,
-    onClick: async (e) => {
+    onClick: () => {
       console.log(`toggle tag ${tag}`)
-      toggleTag(tag)
-      setSuggestionsOpen(false)
+
+      startTransition(() => {
+
+        toggleTag(tag)
+        setSuggestionsOpen(false)
+
+      })
     },
   }))
 
@@ -111,6 +153,7 @@ const SearchBar = ({ setProducts }) => {
             value={searchText}
             onKeyDown={handleSearchInputKeys}
           />
+          <Suspense>
           <div className={styles.suggestionsContainer}>
             {suggestions.map((suggestion, indx) => (
               <div className={styles.suggestion} key={indx}>
@@ -118,9 +161,9 @@ const SearchBar = ({ setProducts }) => {
               </div>
             ))}
           </div>
+          </Suspense>
         </div>
-      </div>
-    </div>
+      </div>    </div>
   )
 }
 
@@ -147,7 +190,7 @@ const SearchBar = ({ setProducts }) => {
 //   modules: [EffectCoverflow, Pagination, Navigation],
 // }
 
-const SwiperResults = ({ products }) => {
+const SwiperResults = ({products}:{ products:Product[] }) => {
   return <div>{products.map((x) => JSON.stringify(x))}</div>
 }
 //   const swiperElRef = useRef(null)
@@ -189,10 +232,17 @@ const FramerResults = ({ products }: { products: Product[] }) => {
   )
 }
 
-//const Search = ({ query, tags }: { query: string; tags: string[] }) => {
-const Search = () => {
-  const [products, setProducts] = useState<Product[]>([])
+
+export interface SearchProps { query: string; tags: string[], availableTags: string[] }
+const Search = ({ query, tags, availableTags }:  SearchProps) => {
+//const Search = () => {
+
+
+  const [products, setProducts] = useState<Product[]>([]) 
   const [resultsKind, setResultsKind] = useState<string>("animate")
+
+
+
 
   return (
     <>
@@ -207,12 +257,14 @@ const Search = () => {
       </div>
 
       <div>
-        <SearchBar setProducts={setProducts} />
+        <Suspense>
+        <SearchBar setProducts={setProducts} availableTags={availableTags} />
         {resultsKind === "animate" ? (
           <FramerResults products={products} />
         ) : (
           <SwiperResults products={products} />
         )}
+        </Suspense>
       </div>
     </>
   )
