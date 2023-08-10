@@ -1,6 +1,6 @@
 import type { CodegenConfig } from "@graphql-codegen/cli";
 
-const clientConfig: CodegenConfig = {
+const config: CodegenConfig = {
   overwrite: true,
   schema: "src/graphql/schema.graphql",
   documents: [
@@ -8,15 +8,11 @@ const clientConfig: CodegenConfig = {
   ],
   ignoreNoDocuments: true,
   generates: {
-    "src/lib/graphql-codegened/client/": {
-      plugins: [
-        "typescript", 
-        "typescript-operations",
-        "typed-document-node",],
-      
+    "src/lib/graphql-codegened/": {
+      plugins: [],
       preset: "client",
     },
   },
 }
 
-export default clientConfig
+export default config

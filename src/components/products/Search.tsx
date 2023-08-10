@@ -7,7 +7,7 @@ import { ChangeEvent, KeyboardEventHandler, Suspense, useCallback, useEffect, us
 // import "swiper/css/navigation"
 //import { SwiperOptions } from "swiper/types"
 import { motion, AnimatePresence } from "framer-motion"
-import { useLazyQuery, gql, useSuspenseQuery } from "@apollo/client"
+import { useLazyQuery, useSuspenseQuery, gql } from "@apollo/client"
 //import { gql } from 'graphql-tag'
 import useOutsideClick from "@/hooks/useOutsideClick"
 import { useRouter } from "next/navigation"
@@ -18,12 +18,12 @@ import { Product } from "@/lib/types"
 
 
 const SEARCH_QUERY = gql`
-  query GetItems($searchString: String = "", $tags: [String] = []) {
-    getItems(searchString: $searchString, tags: $tags) {
+  query SearchProducts($searchText: String = "", $tags: [String] = []) {
+    searchProducts(searchText: $searchText, tags: $tags) {
       id
       isActive
       price
-      pictureUrl
+      imageUrl
       about
       tags
       legacyId
@@ -34,7 +34,7 @@ const SEARCH_QUERY = gql`
 
 type SetProductsType = (pp: Product[]) => void
 const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType, availableTags: string[] }) => {
-  
+  console.log("\n\n\n\nHEY MATT MATT SEARCHBAR STARTING TO RENDER")
   const router = useRouter()
 
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false)
@@ -48,18 +48,22 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
   })
   const { searchText, tags } = qryArgs
 
-  const { data } = useSuspenseQuery(SEARCH_QUERY, {
-    variables: {
-      searchText,
-      tags,
-    }
-  })
+  // 
+  // const ans = useSuspenseQuery(SEARCH_QUERY, {
+  //   variables: {
+  //     searchText,
+  //     tags,
+  //   }
+  // }) 
 
+  //console.log(`HEY HEY HEY MATT\n\n${JSON.stringify(ans)}`)
+
+  const { data } = { data: { searchProducts: [] } }
   //TODO fix these castes after codegen-ing the graphql types
-  const products = (data as { products:Product[] }).products as Product[]
+  const { searchProducts:products } = data as { searchProducts: Product[] }
 
 
-  useEffect(() => setProducts(products as Product[]), [products, setProducts])
+  //useEffect(() => setProducts(products as Product[]), [products, setProducts])
 
   const [isPending, startTransition] = useTransition()
 
@@ -70,6 +74,8 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
       console.log(`tag ${tag} toggled!`)
       startTransition(() => {
 
+
+        console.log("\n\n\n\nHEY MATT MATT startTransition on setQryArgs STARTING TO RENDER")
         const newTags = qryArgs.tags.includes(tag)
           ? qryArgs.tags.filter((x) => x !== tag)
           : [...qryArgs.tags, tag]
@@ -94,12 +100,16 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
       
       startTransition(() => {
         
+        console.log("\n\n\n\nHEY MATT MATT setSuggestions on setQryArgs STARTING TO RENDER")
+
         setQryArgs({
           ...qryArgs,
           searchText,
         })
         setSuggestionsOpen(true)
     
+
+        console.log("\n\n\n\nHEY MATT MATT startTransition on setQryArgs end end end ")
       })
     },  
     
@@ -118,9 +128,11 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
 
       startTransition(() => {
 
+        console.log("\n\n\n\nHEY MATT MATT startTransition on toggletatg STARTING TO RENDER")
         toggleTag(tag)
         setSuggestionsOpen(false)
 
+        console.log("\n\n\n\nHEY MATT MATT startTransition on starting tags tags")
       })
     },
   }))
@@ -140,6 +152,8 @@ const SearchBar = ({ setProducts, availableTags }: { setProducts:SetProductsType
     }
   }
 
+
+  console.log("\n\n\n\nHEY MATT MATT SEARCHBAR returning jsx")
   return (
     <div>
       <Tags tags={availableTags} activeTags={qryArgs.tags} toggleTag={toggleTag} />
@@ -236,7 +250,8 @@ const FramerResults = ({ products }: { products: Product[] }) => {
 export interface SearchProps { query: string; tags: string[], availableTags: string[] }
 const Search = ({ query, tags, availableTags }:  SearchProps) => {
 //const Search = () => {
-
+  
+console.log("\n\n\n\nHEY MATT MATT search (just search) STARTING TO RENDER")
 
   const [products, setProducts] = useState<Product[]>([]) 
   const [resultsKind, setResultsKind] = useState<string>("animate")
