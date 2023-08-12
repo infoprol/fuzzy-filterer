@@ -1,6 +1,6 @@
 'use client'
 
-import { makeApolloClient } from "@/lib"
+
 import { gql, useSuspenseQuery } from "@apollo/client"
 import { notFound, useRouter } from "next/navigation"
 import Tags from "./Tags"
