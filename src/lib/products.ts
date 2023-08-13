@@ -14,7 +14,7 @@ const consIsTagged = (tags: string[]) => (p: Product) => {
 export const consAllAvailableTags =
   ({ allProducts }: { allProducts: Product[] }) =>
   async (...args: any) => {
-    Object.keys(
+    return Object.keys(
       allProducts
         .reduce((acc: string[], { tags }) => [...acc, ...tags], [] as string[])
         .reduce((acc: object, elem: string) => ({ [elem]: true, ...acc }), {})
