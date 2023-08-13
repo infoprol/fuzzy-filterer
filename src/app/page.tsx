@@ -21,7 +21,7 @@ export default async function Home({
       tags = [];
       break;
     case "string":
-      tags = [];
+      tags = [searchParams.tags];
       break;
     default:
       tags = searchParams.tags;

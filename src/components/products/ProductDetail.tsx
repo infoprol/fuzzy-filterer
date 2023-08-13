@@ -8,8 +8,8 @@ import Image from "next/image";
 export default function ProductDetail({ product }: { product: Product }) {
   const router = useRouter();
 
-  const onTagSelect = async (tag: string) => {
-    router.push(`/?query=&tags=${tag}`);
+  const onTagSelect = (tag: string) => {
+    router.push(`/?searchText=&tags=${tag}`);
   };
 
   return (
