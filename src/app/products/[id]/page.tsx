@@ -1,19 +1,16 @@
-import 'next/dynamic'
+import ProductDetail from "@/components/products/ProductDetail";
+import pf from "@/lib/products";
+import { notFound } from "next/navigation";
 
-import { Suspense } from "react"
-import ProductDetail from "@/components/products/ProductDetail"
+const { getProductById } = pf;
 
-
-
-
-export default function Page({
+export default async function Page({
   params: { id },
 }: {
-  params: { id: string },
+  params: { id: string };
 }) {
+  const product = await getProductById({ id });
+  if (!product) notFound();
 
-
-  return     <Suspense fallback={<div>loading product</div>}>
-    <ProductDetail productId={id} />
-    </Suspense>
+  return <ProductDetail product={product} />;
 }

@@ -23,9 +23,8 @@ export const consAllAvailableTags =
 
 export const consGetProductById =
   ({ allProducts }: { allProducts: Product[] }) =>
-  async ({ id }: { id: string }) => {
+  async ({ id }: { id: string }) =>
     allProducts.filter((x) => x.id === (id as string)).at(0);
-  };
 
 export const consSearchProducts =
   ({
@@ -55,6 +54,7 @@ export const consSearchProducts =
 
 const allProducts = allProductsRaw as Product[];
 
+// export sensible defaults
 const ProductFuncs = {
   getAllAvailableTags: consAllAvailableTags({ allProducts }),
   getProductById: consGetProductById({ allProducts }),
