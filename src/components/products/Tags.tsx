@@ -1,17 +1,22 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import styles from "./Tags.module.css";
-import { useRouter } from "next/router";
 export interface TagsProps {
   availableTags?: string[] | undefined;
+  activeTags?: string[] | undefined;
+  searchText?: string | undefined;
 }
 
-const Tags = ({ availableTags = [] }: TagsProps) => {
-  const searchParams = useSearchParams();
+const Tags = ({
+  availableTags = [],
+  activeTags = [],
+  searchText = "",
+}: TagsProps) => {
+  //const searchParams = useSearchParams();
   const router = useRouter();
-  const searchText = (searchParams.get("searchText") || "") as string;
-  const activeTags = searchParams.getAll("tags") || [];
+  // const searchText = (searchParams.get("searchText") || "") as string;
+  // const activeTags = searchParams.getAll("tags") || [];
 
   const toggleTag = (tag: string) => {
     const newTags = activeTags.includes(tag)
@@ -19,7 +24,7 @@ const Tags = ({ availableTags = [] }: TagsProps) => {
       : [...activeTags, tag];
 
     const qs = new URLSearchParams({ searchText });
-    for (const t of activeTags) qs.append("tags", `${encodeURIComponent(t)}}`);
+    for (const t of newTags) qs.append("tags", `${encodeURIComponent(t)}}`);
 
     router.replace(`/?${qs}`);
   };

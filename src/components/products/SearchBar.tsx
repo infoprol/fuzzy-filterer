@@ -1,44 +1,25 @@
 "use client";
 
-import {
-  ChangeEvent,
-  KeyboardEventHandler,
-  startTransition,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useTransition,
-} from "react";
-// import "swiper/css"
-// import "swiper/css/effect-coverflow"
-// import "swiper/css/pagination"
-// import "swiper/css/navigation"
-//import { SwiperOptions } from "swiper/types"
-import { motion, AnimatePresence } from "framer-motion";
+import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useRouter, useSearchParams } from "next/navigation";
-import styles from "./Search.module.css";
-import ProductCard from "./ProductCard";
-import Tags from "./Tags";
 import { Product } from "@/lib/types";
-import process from "node:process";
 
 export interface SearchPropsType {
   searchText: string;
-  tags: string[];
   products: Product[];
+  tags: string[];
 }
 
 const DEBOUNCE_MILLI_SEC = parseInt(
-  (process.env.DEBOUNCE_MILLI_SEC as string) || "300",
+  (process.env.DEBOUNCE_MILLI_SEC as string) || "250",
 );
 
 function SearchBar({
+  products = [],
   searchText = "",
   tags = [],
-  products = [],
 }: SearchPropsType) {
   const router = useRouter();
 
@@ -54,13 +35,17 @@ function SearchBar({
   useEffect(() => {
     const debounced = setTimeout(() => {
       const qs = new URLSearchParams({
-        searchText,
+        searchText: searchInputVal,
       });
       for (const t of tags) qs.append("tags", t);
 
       router.replace(`/?${qs}`);
     }, DEBOUNCE_MILLI_SEC);
-  }, [searchInputVal, router]);
+
+    return () => {
+      clearTimeout(debounced);
+    };
+  }, [searchInputVal, router, tags]);
 
   const nameSuggests = products.map(({ id, name }, indx) => {
     const h: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -81,7 +66,7 @@ function SearchBar({
 
         case "ArrowUp":
           setCurrSelectedSuggestion(indx - (1 % products.length));
-
+          break;
         default:
           break;
       }
@@ -102,14 +87,20 @@ function SearchBar({
   const handleSearchInputKeys: KeyboardEventHandler<HTMLInputElement> = async (
     evt,
   ) => {
+    if (evt.key.match(/^[A-Za-z0-9\s]$/)) {
+      const prevInputVal = searchInputVal;
+      setSearchInputVal(prevInputVal + evt.key);
+      setSuggestionsOpen(true);
+      return;
+    }
+
     switch (evt.key) {
       case "Enter":
-        if (
-          currSelectedSuggestion < products.length &&
-          currSelectedSuggestion > 0
-        )
-          router.push(`/products/${products[currSelectedSuggestion].id}`);
-        break;
+      // if (
+      //   currSelectedSuggestion < products.length &&
+      //   currSelectedSuggestion > 0
+      // )
+      //router.push(`/products/${products[currSelectedSuggestion].id}`);
       case "Escape":
         setSuggestionsOpen(false);
         break;
@@ -118,28 +109,48 @@ function SearchBar({
         setCurrSelectedSuggestion(0);
         break;
       //TODO keydown, keyup for selecting suggestions with keyboard
+
+      case "Backspace":
+        const newSearchInputVal = searchInputVal.slice(0, -1);
+        setSearchInputVal(newSearchInputVal);
+        if (newSearchInputVal.length < 1) setSuggestionsOpen(false);
+        break;
+
+      case "Meta":
+      case "Control":
+      case "Alt":
+      case "Shift":
+      case "CapsLock":
+      case "Tab":
+        break;
       default:
-        setSuggestionsOpen(true);
+        // const prevInputVal = searchInputVal;
+        // setSearchInputVal(prevInputVal + evt.key);
+        // setSuggestionsOpen(true);
         break;
     }
   };
 
   return (
     <div>
-      <div className={styles.searchContainer}>
-        <div className={styles.searchBar} ref={searchBarRef}>
+      <div className="relative overflow-hidden">
+        <div
+          className="bg-[#fffebe] position-relative justify-center ml-1/2 w-1/3 z-100"
+          ref={searchBarRef}
+        >
           <input
             type="text"
             placeholder="search..."
-            className={styles.searchInput}
+            className="absolute text-center color-black decoration-none min-h-[3rem] rounded-md w-full flex flex-row justify-center text-sm p-[0.2rem] z-6 bg-pink-400 border-l-4 border-color-green ml-1/2"
             // onChange={handleSearch}
-            value={searchText}
+            //onChange={(e) => setSearchInputVal(e.target.value)}
+            value={searchInputVal}
             onKeyDown={handleSearchInputKeys}
           />
-          <div className={styles.suggestionsContainer}>
+          <div className="text-sm flex flex-col justify-center w-full border-t-0 divide-y divide-indigo-50 mt-0 overflow-auto z-5 absolute rounded-md bg-color-burlywood opacity-90">
             {suggestions.map((suggestion, indx) => (
               <div
-                className={styles.suggestion}
+                className="text-sm font-normal p-[0.2rem] text-center color-black decoration-none min-h-[24px] justify-center"
                 key={indx}
                 onKeyDown={suggestion.onKeyDown}
                 onClick={suggestion.onClick}

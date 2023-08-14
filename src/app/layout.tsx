@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import WrappedProviders from "@/app/WrappedProviders";
 
 //import styles from "@/app/Home.module.css";
-//import "./globals.css";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "FF - the Fuzzy Fiterer",
