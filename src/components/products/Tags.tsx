@@ -1,78 +1,50 @@
-"use client"
+"use client";
 
-import styles from "./Tags.module.css"
-// 
-// const rgbFor = (txt: string) => {
-//   //get ascii
-//   const codePoints: number[] = txt.split("").map((x) => x.charCodeAt(0))
-//   while (codePoints.length < 6) {
-//     codePoints.push(...codePoints)
-//   }
-//   const colors: number[] = []
-//   for (let i = 0; i < 6 && i < codePoints.length - 1; i + 2) {
-//     const c = codePoints[i] as number
-//     const d = codePoints[i + 1] as number
-// 
-//     colors.push(c + d)
-//   }
-// 
-//   // dont want unicode to blow us up, just in case...
-//   const colorCode =
-//     "#" +
-//     colors
-//       .map((x) => x % 255)
-//       .map((x) => x.toString(16))
-//       .join("")
-// 
-//   return colorCode
-// }
-// 
-// export interface TagProps {
-//   tag: string
-//   toggleTag: (string) => void
-// }
-// 
-// type ConsTagType = (toColor:string) => (props: TagProps) => React.ReactNode
-// const consTag : ConsTagType = (toColor)  => {
-//   return ({ tag, toggleTag }: TagProps) => {
-//     const color = toColor(tag)
-// 
-//     return (
-//       <div
-//         className={styles.card}
-//         onClick={(e) => toggleTag(tag)}
-//         style={{ backgroundColor: color }}
-//       >
-//         {`${tag}`}
-//       </div>
-//     )
-//   }
-// }
-
-//export const Tag = consTag(rgbFor)
-
+import { useSearchParams } from "next/navigation";
+import styles from "./Tags.module.css";
+import { useRouter } from "next/router";
 export interface TagsProps {
-  tags: string[]
-  activeTags?: string[] | undefined
-  toggleTag: (tag:string) => void
+  availableTags?: string[] | undefined;
 }
 
-const Tags = ({ tags, toggleTag, activeTags = [] }: TagsProps) => {
-  console.log(`rendering Tags(${tags})`)
+const Tags = ({ availableTags = [] }: TagsProps) => {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchText = (searchParams.get("searchText") || "") as string;
+  const activeTags = searchParams.getAll("tags") || [];
+
+  const toggleTag = (tag: string) => {
+    const newTags = activeTags.includes(tag)
+      ? activeTags.filter((x) => x !== tag)
+      : [...activeTags, tag];
+
+    const qs = new URLSearchParams({ searchText });
+    for (const t of activeTags) qs.append("tags", `${encodeURIComponent(t)}}`);
+
+    router.replace(`/?${qs}`);
+  };
+
+  console.log(`rendering Tags(${availableTags})`);
   return (
     <div className={styles.tagsContainer}>
       <ul>
-        {tags.map((tag, indx) => {
-          const isActive = activeTags.includes(tag) ? ` ${styles.activeTag}` : ""
-          const className = `${styles.tag}${isActive}`
+        {availableTags.map((tag, indx) => {
+          const isActive = activeTags.includes(tag)
+            ? ` ${styles.activeTag}`
+            : "";
+          const className = `${styles.tag}${isActive}`;
 
           return (
-            <li key={indx} className={className} onClick={(e) => toggleTag(tag)}>{`${tag}`}</li>
-          )
+            <li
+              key={indx}
+              className={className}
+              onClick={(e) => toggleTag(tag)}
+            >{`${tag}`}</li>
+          );
         })}
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default Tags
+export default Tags;

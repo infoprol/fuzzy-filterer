@@ -14,7 +14,7 @@ export default function ProductDetail({ product }: { product: Product }) {
 
   return (
     <>
-      <Tags tags={product.tags} toggleTag={onTagSelect} />
+      <Tags availableTags={product.tags} />
       <div>
         <h1>Product {product.id}</h1>
 

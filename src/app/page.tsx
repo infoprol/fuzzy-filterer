@@ -1,11 +1,44 @@
 import Search, {
   SearchArgsType,
   SearchPropsType,
-} from "@/components/products/Search";
+} from "@/components/products/SearchBar";
 import { Suspense } from "react";
 
 import { default as pf } from "@/lib/products";
 import { Product } from "@/lib/types";
+import { useReactiveVar } from "@apollo/client";
+import { useRouter } from "next/router";
+import Tags from "@/components/products/Tags";
+import { AnimatePresence, motion } from "framer-motion";
+import ProductCard from "@/components/products/ProductCard";
+
+const SearchResults = ({ products }: { products: Product[] }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "row",
+      }}
+    >
+      <AnimatePresence>
+        {products.map((p) => (
+          <motion.div
+            layout
+            className={styles.productCardCell}
+            layoutId={p.id}
+            key={p.id}
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{ opacity: 1, scale: 1, animation: "linear" }}
+            exit={{ opacity: 0, scale: 0 }}
+          >
+            <ProductCard product={p} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
+    </div>
+  );
+};
 
 export default async function Home({
   searchParams = { searchText: "", tags: [] },
@@ -15,16 +48,16 @@ export default async function Home({
 }) {
   const searchText = (searchParams?.searchText as string) || "";
 
-  let tags: string[] = [];
+  let activeTags: string[] = [];
   switch (typeof searchParams.tags) {
     case "undefined":
-      tags = [];
+      activeTags = [];
       break;
     case "string":
-      tags = [searchParams.tags];
+      activeTags = [searchParams.tags];
       break;
     default:
-      tags = searchParams.tags;
+      activeTags = searchParams.tags;
       break;
   }
 
@@ -37,19 +70,22 @@ export default async function Home({
   const prAvailableTags = pf.getAllAvailableTags();
   const prProducts = pf.searchProducts({
     searchText,
-    tags,
+    tags: activeTags,
   });
   const [availableTags, products] = await Promise.all([
     prAvailableTags,
     prProducts,
   ]);
 
+  /////////////////////////
+
   return (
-    <Search
-      products={products}
-      availableTags={availableTags}
-      searchText={searchText}
-      tags={tags}
-    />
+    <div>
+      <Tags availableTags={availableTags} />
+      <div>
+        <SearchBar searchText={searchText} />
+        <SearchResults products={products} />
+      </div>
+    </div>
   );
 }
