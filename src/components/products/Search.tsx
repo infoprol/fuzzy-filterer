@@ -3,10 +3,12 @@
 import {
   ChangeEvent,
   KeyboardEventHandler,
+  startTransition,
   useCallback,
   useEffect,
   useRef,
   useState,
+  useTransition,
 } from "react";
 // import "swiper/css"
 // import "swiper/css/effect-coverflow"
@@ -44,6 +46,8 @@ const SearchBar = (props: SearchPropsType) => {
   const { searchText, tags } = qryArgs;
 
   const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false);
+  const [currSelectedSuggestion, setCurrSelectedSuggestion] =
+    useState<number>(-1);
 
   const searchBarRef = useRef(null);
   useOutsideClick(searchBarRef, () => setSuggestionsOpen(false));
@@ -95,15 +99,40 @@ const SearchBar = (props: SearchPropsType) => {
     //setSuggestionsOpen(true)
   };
 
-  const nameSuggests = products.map(({ id, name }) => ({
-    text: name,
-    onClick: () => {
-      router.push(`/products/${id}`);
-      //await router.push(Routes.ShowProductPage({ productId: id }))
-    },
-  }));
+  const nameSuggests = products.map(({ id, name }, indx) => {
+    const h: KeyboardEventHandler<HTMLDivElement> = (event) => {
+      if (currSelectedSuggestion !== indx) return;
+
+      switch (event.key) {
+        case "Enter":
+          alert(`${id} => ${name}`);
+          break;
+
+        case "ArrowDown":
+          setCurrSelectedSuggestion(indx + (1 % products.length));
+          break;
+
+        case "ArrowUp":
+          setCurrSelectedSuggestion(indx - (1 % products.length));
+
+        default:
+          break;
+      }
+    };
+
+    return {
+      text: name,
+      onKeyDown: h,
+      onClick: () => {
+        router.push(`/products/${id}`);
+        //await router.push(Routes.ShowProductPage({ productId: id }))
+      },
+    };
+  });
   const tagSuggests = tags.map((tag) => ({
     text: tag,
+    onKeyDown: (evt: KeyboardEvent) => {},
+
     onClick: () => {
       console.log(`toggle tag ${tag}`);
       toggleTag(tag);
@@ -111,20 +140,19 @@ const SearchBar = (props: SearchPropsType) => {
     },
   }));
 
-  const suggestions =
-    !suggestionsOpen || searchText === ""
-      ? []
-      : nameSuggests.concat(tagSuggests);
+  const suggestions = !suggestionsOpen || searchText === "" ? [] : nameSuggests; //.concat(tagSuggests);
 
   const handleSearchInputKeys: KeyboardEventHandler<HTMLElement> = async (
     evt
   ) => {
     switch (evt.key) {
       case "Enter":
-
       case "Escape":
         setSuggestionsOpen(false);
-
+        break;
+      case "ArrowDown":
+        setSuggestionsOpen(true);
+        setCurrSelectedSuggestion(0);
         break;
       //TODO keydown, keyup for selecting suggestions with keyboard
       default:
@@ -132,6 +160,10 @@ const SearchBar = (props: SearchPropsType) => {
         break;
     }
   };
+
+  const handleSuggestionKeyboardNavigation: KeyboardEventHandler<
+    HTMLElement
+  > = async () => {};
 
   return (
     <div>
@@ -148,8 +180,18 @@ const SearchBar = (props: SearchPropsType) => {
           />
           <div className={styles.suggestionsContainer}>
             {suggestions.map((suggestion, indx) => (
-              <div className={styles.suggestion} key={indx}>
-                <span onClick={suggestion.onClick}>{suggestion.text}</span>
+              <div
+                className={styles.suggestion}
+                key={indx}
+                onKeyDown={suggestion.onKeyDown}
+                onClick={suggestion.onClick}
+              >
+                <span
+                  onKeyDown={suggestion.onKeyDown}
+                  onClick={suggestion.onClick}
+                >
+                  {suggestion.text}
+                </span>
               </div>
             ))}
           </div>
@@ -211,6 +253,7 @@ const FramerResults = ({ products }: { products: Product[] }) => {
           <motion.div
             layout
             className={styles.productCardCell}
+            layoutId={p.id}
             key={p.id}
             initial={{ opacity: 0, scale: 0 }}
             animate={{ opacity: 1, scale: 1, animation: "linear" }}
