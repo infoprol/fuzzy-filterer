@@ -11,7 +11,7 @@ export default async function Home({
   searchParams: { searchText: string; tags: string };
 }) {
   console.log(
-    `rendering ssc page - searchParams: ${JSON.stringify({
+    `rendering root ssc page - searchParams: ${JSON.stringify({
       searchText,
       tags,
     })}`,

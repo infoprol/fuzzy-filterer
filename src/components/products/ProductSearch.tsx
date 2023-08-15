@@ -18,6 +18,10 @@ export default function ProductSearch(props: Props) {
   const [activeTags, setActiveTags] = useState<string[]>([...props.activeTags]);
   const router = useRouter();
 
+  console.log(
+    `ProductSearch rendering with products=${JSON.stringify(props.products)}`,
+  );
+
   useEffect(() => {
     const debounced = setTimeout(() => {
       const qs = toQs({
@@ -39,7 +43,7 @@ export default function ProductSearch(props: Props) {
         <SearchBar
           searchText={searchText}
           products={props.products}
-          tags={activeTags}
+          // tags={activeTags}
           setSearchText={setSearchText}
         />
         <SearchResults products={props.products} />

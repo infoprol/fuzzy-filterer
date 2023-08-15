@@ -1,16 +1,17 @@
 import { Suspense } from "react";
-import Loading from './loading'
+import Loading from "./loading";
 
 export default function ProductsLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  console.log(`rendering /products layout...`);
 
-  return <>
-    <Suspense fallback={<Loading />}>
+  return (
+    <>
       {children}
-    </Suspense>
-  </>
-
+      {/* <Suspense fallback={<Loading />}>{children}</Suspense> */}
+    </>
+  );
 }

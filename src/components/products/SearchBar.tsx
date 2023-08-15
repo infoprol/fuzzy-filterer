@@ -10,14 +10,15 @@ import { DEBOUNCE_MILLI_SEC, toQs } from "@/lib";
 export interface SearchPropsType {
   searchText: string;
   products: Product[];
-  tags: string[];
+  //tags: string[];
   setSearchText: (val: string) => void;
 }
 
 function SearchBar({
-  products = [],
-  searchText = "",
-  tags = [],
+  products,
+  searchText,
+  // tags,
+  setSearchText,
 }: SearchPropsType) {
   const router = useRouter();
 
@@ -29,17 +30,17 @@ function SearchBar({
 
   const searchBarRef = useRef(null);
   useOutsideClick(searchBarRef, () => setSuggestionsOpen(false));
-
-  useEffect(() => {
-    const debounced = setTimeout(() => {
-      const qs = toQs({
-        searchText: searchInputVal,
-        tags: tags,
-      });
-
-      router.replace(`/?${qs}`);
-    }, DEBOUNCE_MILLI_SEC);
-  }, [searchInputVal, router, tags]);
+  //
+  //   useEffect(() => {
+  //     const debounced = setTimeout(() => {
+  //       const qs = toQs({
+  //         searchText: searchInputVal,
+  //         tags: tags,
+  //       });
+  //
+  //       router.replace(`/?${qs}`);
+  //     }, DEBOUNCE_MILLI_SEC);
+  //   }, [searchInputVal, router, tags]);
 
   const nameSuggests = products.map(({ id, name }, indx) => {
     const h: KeyboardEventHandler<HTMLDivElement> = (event) => {
@@ -136,9 +137,9 @@ function SearchBar({
             placeholder="search..."
             className="absolute text-center color-black decoration-none min-h-[3rem] rounded-md w-full flex flex-row justify-center text-sm p-[0.2rem] z-6 bg-pink-400 border-l-4 border-color-green ml-1/2"
             // onChange={handleSearch}
-            onChange={(e) => setSearchInputVal(e.target.value)}
-            value={searchInputVal}
-            onKeyDown={handleSearchInputKeys}
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            //onKeyDown={handleSearchInputKeys}
           />
           <div className="text-sm flex flex-col justify-center w-full border-t-0 divide-y divide-indigo-50 mt-0 overflow-auto z-5 absolute rounded-md bg-color-burlywood opacity-90">
             {suggestions.map((suggestion, indx) => (

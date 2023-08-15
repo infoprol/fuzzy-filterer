@@ -4,6 +4,7 @@ import { Product } from "@/lib/types";
 import { Tags, SearchBar, SearchResults } from "@/components/products";
 import { ComponentProps } from "react";
 import ProductSearch from "@/components/products/ProductSearch";
+import { ACTION } from "next/dist/client/components/app-router-headers";
 
 export default async function Home({
   searchParams: { searchText = "", tags = "" },
@@ -11,7 +12,7 @@ export default async function Home({
   searchParams: { searchText: string; tags: string };
 }) {
   console.log(
-    `rendering ssc page - searchParams: ${JSON.stringify({
+    `rendering products ssc page - searchParams: ${JSON.stringify({
       searchText,
       tags,
     })}`,
@@ -20,7 +21,7 @@ export default async function Home({
   const activeTags = parseListOfTags(tags) || [];
 
   const prAvailableTags = pf.getAllAvailableTags();
-  const prProducts = pf.searchProducts({ searchText, tags: [tags] });
+  const prProducts = pf.searchProducts({ searchText, tags: activeTags });
   const [availableTags, products] = await Promise.all([
     prAvailableTags,
     prProducts,
