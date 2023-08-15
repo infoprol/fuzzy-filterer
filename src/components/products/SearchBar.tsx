@@ -5,16 +5,14 @@ import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Product } from "@/lib/types";
+import { DEBOUNCE_MILLI_SEC, toQs } from "@/lib";
 
 export interface SearchPropsType {
   searchText: string;
   products: Product[];
   tags: string[];
+  setSearchText: (val: string) => void;
 }
-
-const DEBOUNCE_MILLI_SEC = parseInt(
-  (process.env.DEBOUNCE_MILLI_SEC as string) || "250",
-);
 
 function SearchBar({
   products = [],
@@ -34,17 +32,13 @@ function SearchBar({
 
   useEffect(() => {
     const debounced = setTimeout(() => {
-      const qs = new URLSearchParams({
+      const qs = toQs({
         searchText: searchInputVal,
+        tags: tags,
       });
-      for (const t of tags) qs.append("tags", t);
 
       router.replace(`/?${qs}`);
     }, DEBOUNCE_MILLI_SEC);
-
-    return () => {
-      clearTimeout(debounced);
-    };
   }, [searchInputVal, router, tags]);
 
   const nameSuggests = products.map(({ id, name }, indx) => {
@@ -77,7 +71,6 @@ function SearchBar({
       onKeyDown: h,
       onClick: () => {
         router.push(`/products/${id}`);
-        //await router.push(Routes.ShowProductPage({ productId: id }))
       },
     };
   });
@@ -87,20 +80,21 @@ function SearchBar({
   const handleSearchInputKeys: KeyboardEventHandler<HTMLInputElement> = async (
     evt,
   ) => {
-    if (evt.key.match(/^[A-Za-z0-9\s]$/)) {
-      const prevInputVal = searchInputVal;
-      setSearchInputVal(prevInputVal + evt.key);
-      setSuggestionsOpen(true);
-      return;
-    }
+    //
+    // if (evt.key.match(/^[A-Za-z0-9\s]$/)) {
+    //   const prevInputVal = searchInputVal;
+    //   setSearchInputVal(prevInputVal + evt.key);
+    //   setSuggestionsOpen(true);
+    //   return;
+    // }
 
     switch (evt.key) {
       case "Enter":
-      // if (
-      //   currSelectedSuggestion < products.length &&
-      //   currSelectedSuggestion > 0
-      // )
-      //router.push(`/products/${products[currSelectedSuggestion].id}`);
+        if (
+          currSelectedSuggestion < products.length &&
+          currSelectedSuggestion > 0
+        )
+          router.push(`/products/${products[currSelectedSuggestion].id}`);
       case "Escape":
         setSuggestionsOpen(false);
         break;
@@ -122,7 +116,6 @@ function SearchBar({
       case "Shift":
       case "CapsLock":
       case "Tab":
-        break;
       default:
         // const prevInputVal = searchInputVal;
         // setSearchInputVal(prevInputVal + evt.key);
@@ -143,7 +136,7 @@ function SearchBar({
             placeholder="search..."
             className="absolute text-center color-black decoration-none min-h-[3rem] rounded-md w-full flex flex-row justify-center text-sm p-[0.2rem] z-6 bg-pink-400 border-l-4 border-color-green ml-1/2"
             // onChange={handleSearch}
-            //onChange={(e) => setSearchInputVal(e.target.value)}
+            onChange={(e) => setSearchInputVal(e.target.value)}
             value={searchInputVal}
             onKeyDown={handleSearchInputKeys}
           />

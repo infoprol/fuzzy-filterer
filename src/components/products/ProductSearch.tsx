@@ -1,51 +1,49 @@
 "use client";
 
 import { Product } from "@/lib/types";
-import { useSearchParams } from "next/navigation";
-import Tags from "./Tags";
-import SearchBar from "./SearchBar";
-import SearchResults from "./SearchResults";
-import { default as pf } from "@/lib/products";
+import { Tags, SearchBar, SearchResults } from "@/components/products";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { toQs, DEBOUNCE_MILLI_SEC } from "@/lib";
 
-type DoSearchType = ({
-  searchText,
-  tags,
-}: {
+export type Props = {
   searchText: string;
-  tags: string[];
-}) => Promise<Product[]>;
-
-// server methods may NOT
-export async function generateStaticParams() {
-  return {
-    doSearch: () => new Promise(() => []),
-  };
-}
-
-async function ProductSearch({
-  //  doSearch,
-  availableTags = [],
-  products = [],
-}: {
-  doSearch: DoSearchType | undefined;
-  products: Product[];
   availableTags: string[];
-}) {
-  const searchParams = useSearchParams();
-  const searchText = searchParams.get("searchText") || "";
-  const tags = searchParams.getAll("tags") || [];
+  activeTags: string[];
+  products: Product[];
+};
 
-  //const products = await doSearch({ searchText, tags });
+export default function ProductSearch(props: Props) {
+  const [searchText, setSearchText] = useState<string>(`${props.searchText}`);
+  const [activeTags, setActiveTags] = useState<string[]>([...props.activeTags]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const debounced = setTimeout(() => {
+      const qs = toQs({
+        searchText,
+        tags: activeTags,
+      });
+      router.push(`/products/?${qs}`);
+    }, DEBOUNCE_MILLI_SEC);
+  }, [activeTags, searchText]);
 
   return (
     <div>
-      <Tags availableTags={availableTags} activeTags={tags} />
+      <Tags
+        availableTags={props.availableTags}
+        activeTags={activeTags}
+        setActiveTags={setActiveTags}
+      />
       <div>
-        <SearchBar searchText={searchText} products={products} tags={tags} />
-        <SearchResults products={products} />
+        <SearchBar
+          searchText={searchText}
+          products={props.products}
+          tags={activeTags}
+          setSearchText={setSearchText}
+        />
+        <SearchResults products={props.products} />
       </div>
     </div>
   );
 }
-
-export default ProductSearch;

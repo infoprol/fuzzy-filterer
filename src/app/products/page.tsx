@@ -25,17 +25,15 @@ export default async function Home({
     prAvailableTags,
     prProducts,
   ]);
-  //
-  //   return (
-  //     <>
-  //       <ProductSearch
-  //         searchText={searchText}
-  //         products={products}
-  //         activeTags={activeTags}
-  //         availableTags={availableTags}
-  //       />
-  //     </>
-  //   );
 
-  return <h3>hi</h3>;
+  return (
+    <>
+      <ProductSearch
+        searchText={searchText}
+        products={products}
+        activeTags={activeTags}
+        availableTags={availableTags}
+      />
+    </>
+  );
 }

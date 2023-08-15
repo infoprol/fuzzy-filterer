@@ -2,34 +2,57 @@
 
 import { useSearchParams, useRouter } from "next/navigation";
 import styles from "./Tags.module.css";
+import { DEBOUNCE_MILLI_SEC, toQs } from "@/lib";
+import { useEffect, useState } from "react";
 export interface TagsProps {
-  availableTags?: string[] | undefined;
-  activeTags?: string[] | undefined;
-  searchText?: string | undefined;
+  availableTags: string[];
+  activeTags: string[];
+  setActiveTags: (tags: string[]) => void;
 }
 
-const Tags = ({
-  availableTags = [],
-  activeTags = [],
-  searchText = "",
-}: TagsProps) => {
-  //const searchParams = useSearchParams();
+const Tags = (props: TagsProps) => {
+  //   availableTags = [],
+  //   activeTags = [],
+  //   setActiveTags: (tags: string[]) => void,
+  //   searchText = "",
+  // }: TagsProps) => {
   const router = useRouter();
-  // const searchText = (searchParams.get("searchText") || "") as string;
-  // const activeTags = searchParams.getAll("tags") || [];
+
+  console.log(`Tag`);
+  //
+  //   const [activeTagsDic, setActiveTagsDic] = useState<Record<string, boolean>>(
+  //     () =>
+  //       availableTags.reduce(
+  //         (acc, tag) => ({ ...acc, [tag]: activeTags.includes(tag) }),
+  //         {},
+  //       ),
+  //   );
+
+  const { activeTags, availableTags, setActiveTags } = props;
 
   const toggleTag = (tag: string) => {
     const newTags = activeTags.includes(tag)
       ? activeTags.filter((x) => x !== tag)
       : [...activeTags, tag];
 
-    const qs = new URLSearchParams({ searchText });
-    for (const t of newTags) qs.append("tags", `${encodeURIComponent(t)}}`);
-
-    router.replace(`/?${qs}`);
+    setActiveTags(newTags);
   };
+  //
+  //   const toggleTag = (tag: string) => {
+  //     const newActiveTags = Object.keys({
+  //       ...d,
+  //       [tag]: !d[`${tag}`],
+  //     })
+  //       .map((k) => [k, activeTagsDic[k]])
+  //       .filter(([t, isActive]) => isActive)
+  //       .map(([t, isActive]) => t)
+  //       .sort() as string[];
+  //
+  //     setActiveTagsDic();ß
+  //   };
 
   console.log(`rendering Tags(${availableTags})`);
+  console.log(`...same render, activeTags => ${activeTags}`);
   return (
     <div className={styles.tagsContainer}>
       <ul>
