@@ -35,6 +35,6 @@ yarn-error.log*
 next-env.d.ts
 NOTES
 
-src/lib/graphql-codegened/**/*dist
 dist/
 src/app/output.css
+src/lib/graphql-codegened/**/*.*
