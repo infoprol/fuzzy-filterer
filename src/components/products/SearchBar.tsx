@@ -14,6 +14,36 @@ export interface SearchPropsType {
   setSearchText: (val: string) => void;
 }
 
+interface Suggestion {
+  id: string;
+  text: string;
+  onClick: () => void;
+}
+
+const SuggestionsDropdown = ({
+  suggestions,
+}: {
+  suggestions: Suggestion[];
+}) => {
+  //
+  // <label for="countries_multiple" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+  return (
+    <>
+      <select
+        multiple
+        id="suggestions"
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      >
+        {suggestions.map(({ id, text }) => (
+          <option key={id} value={id}>
+            {text}
+          </option>
+        ))}
+      </select>
+    </>
+  );
+};
+
 function SearchBar({
   products,
   searchText,
@@ -24,7 +54,7 @@ function SearchBar({
 
   const [searchInputVal, setSearchInputVal] = useState<string>(searchText);
 
-  const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(false);
+  const [suggestionsOpen, setSuggestionsOpen] = useState<boolean>(true);
   const [currSelectedSuggestion, setCurrSelectedSuggestion] =
     useState<number>(-1);
 
@@ -42,7 +72,7 @@ function SearchBar({
   //     }, DEBOUNCE_MILLI_SEC);
   //   }, [searchInputVal, router, tags]);
 
-  const nameSuggests = products.map(({ id, name }, indx) => {
+  const nameSuggests: Suggestion[] = products.map(({ id, name }, indx) => {
     const h: KeyboardEventHandler<HTMLDivElement> = (event) => {
       if (currSelectedSuggestion !== indx) return;
 
@@ -68,8 +98,9 @@ function SearchBar({
     };
 
     return {
+      id,
       text: name,
-      onKeyDown: h,
+      //onKeyDown: h,
       onClick: () => {
         router.push(`/products/${id}`);
       },
@@ -142,21 +173,22 @@ function SearchBar({
             //onKeyDown={handleSearchInputKeys}
           />
           <div className="text-sm flex flex-col justify-center w-full border-t-0 divide-y divide-indigo-50 mt-0 overflow-auto z-5 absolute rounded-md bg-color-burlywood opacity-90">
-            {suggestions.map((suggestion, indx) => (
+            <SuggestionsDropdown suggestions={suggestions} />
+            {/* {suggestions.map((suggestion, indx) => (
               <div
                 className="text-sm font-normal p-[0.2rem] text-center color-black decoration-none min-h-[24px] justify-center"
                 key={indx}
-                onKeyDown={suggestion.onKeyDown}
+                // onKeyDown={suggestion.onKeyDown}
                 onClick={suggestion.onClick}
               >
                 <span
-                  onKeyDown={suggestion.onKeyDown}
+                  // onKeyDown={suggestion.onKeyDown}
                   onClick={suggestion.onClick}
                 >
                   {suggestion.text}
                 </span>
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
       </div>
