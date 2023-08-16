@@ -1,6 +1,15 @@
 "use client";
 
-import { KeyboardEventHandler, useEffect, useRef, useState } from "react";
+import {
+  EventHandler,
+  KeyboardEventHandler,
+  MouseEventHandler,
+  ReactEventHandler,
+  useEffect,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 
 import useOutsideClick from "@/hooks/useOutsideClick";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -27,8 +36,17 @@ const SuggestionsDropdown = ({
   suggestions: Suggestion[];
   showSuggestions: boolean;
 }) => {
+  const router = useRouter();
+  const [_, startTransition] = useTransition();
   //
+
   // <label for="countries_multiple" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
+
+  const handleSuggestionClicked: MouseEventHandler<HTMLOptionElement> = (e) => {
+    const id = e.currentTarget.value;
+    console.log(`selected ${e.currentTarget.value}.`);
+    startTransition(() => router.push(`/products/${id}`));
+  };
 
   if (!showSuggestions) return <></>;
   return (
@@ -36,13 +54,19 @@ const SuggestionsDropdown = ({
       <select
         multiple
         id="suggestions"
+        size={suggestions.length}
         className={
           `${showSuggestions ? "" : "hidden "}` +
-          "absolute bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          "absolute z-40 opacity-90 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
         }
       >
         {suggestions.map(({ id, text }) => (
-          <option key={id} value={id} className="block px-4 rounded-sm">
+          <option
+            key={id}
+            value={id}
+            className="block px-4 rounded-sm"
+            onClick={handleSuggestionClicked}
+          >
             {text}
           </option>
         ))}
@@ -68,7 +92,11 @@ function SearchBar({
   const showSuggestions = suggestionsOpen && searchText !== "";
 
   const searchBarRef = useRef(null);
-  useOutsideClick(searchBarRef, () => setSuggestionsOpen(false));
+  useOutsideClick(
+    searchBarRef,
+    () => setSuggestionsOpen(false),
+    () => setSuggestionsOpen(true),
+  );
   //
   //   useEffect(() => {
   //     const debounced = setTimeout(() => {
@@ -205,7 +233,7 @@ function SearchBar({
   //   );
 
   return (
-    <div className="flex justify-center items-center">
+    <div ref={searchBarRef} className="flex justify-center items-center">
       <div className=" w-1/3 relative">
         <div>
           <input

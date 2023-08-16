@@ -11,11 +11,6 @@ export interface TagsProps {
 }
 
 const Tags = (props: TagsProps) => {
-  //   availableTags = [],
-  //   activeTags = [],
-  //   setActiveTags: (tags: string[]) => void,
-  //   searchText = "",
-  // }: TagsProps) => {
   const router = useRouter();
 
   console.log(`Tag`);
