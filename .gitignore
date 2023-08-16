@@ -37,3 +37,4 @@ NOTES
 
 src/lib/graphql-codegened/**/*dist
 dist/
+src/app/output.css
