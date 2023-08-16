@@ -22,6 +22,12 @@ export default function ProductSearch(props: Props) {
     `ProductSearch rendering with products=${JSON.stringify(props.products)}`,
   );
 
+  const onTagPicked = (t: string) => {
+    const aa = activeTags.includes(t)
+      ? setActiveTags(activeTags.filter((elem) => elem !== t))
+      : setActiveTags([...activeTags, t]);
+  };
+
   useEffect(() => {
     const debounced = setTimeout(() => {
       const qs = toQs({
@@ -30,14 +36,14 @@ export default function ProductSearch(props: Props) {
       });
       router.push(`/products/?${qs}`);
     }, DEBOUNCE_MILLI_SEC);
-  }, [activeTags, searchText]);
+  }, [activeTags, router, searchText]);
 
   return (
     <div>
       <Tags
         availableTags={props.availableTags}
         activeTags={activeTags}
-        setActiveTags={setActiveTags}
+        onTagPicked={onTagPicked}
       />
       <div>
         <SearchBar

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 export interface TagsProps {
   availableTags: string[];
   activeTags: string[];
-  setActiveTags: (tags: string[]) => void;
+  onTagPicked: (tags: string) => void;
 }
 
 const Tags = (props: TagsProps) => {
@@ -28,17 +28,10 @@ const Tags = (props: TagsProps) => {
   //       ),
   //   );
 
-  const { activeTags, availableTags, setActiveTags } = props;
+  const { activeTags, availableTags, onTagPicked } = props;
 
-  const toggleTag = (tag: string) => {
-    const newTags = activeTags.includes(tag)
-      ? activeTags.filter((x) => x !== tag)
-      : [...activeTags, tag];
-
-    setActiveTags(newTags);
-  };
   //
-  //   const toggleTag = (tag: string) => {
+  //   const onTagPicked = (tag: string) => {
   //     const newActiveTags = Object.keys({
   //       ...d,
   //       [tag]: !d[`${tag}`],
@@ -66,7 +59,7 @@ const Tags = (props: TagsProps) => {
             <li
               key={indx}
               className={className}
-              onClick={(e) => toggleTag(tag)}
+              onClick={(e) => onTagPicked(tag)}
             >{`${tag}`}</li>
           );
         })}
