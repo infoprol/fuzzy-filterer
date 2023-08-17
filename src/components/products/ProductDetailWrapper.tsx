@@ -13,7 +13,7 @@ export default function ProductDetailWrapper({ id }: { id: string }) {
   const productId = id as string;
 
   console.log("about to suspense query");
-  const { data, client, stopPolling } = useSuspenseQuery(GET_PRODUCT_QUERY, {
+  const { data, client } = useSuspenseQuery(GET_PRODUCT_QUERY, {
     variables: { getProductId: productId },
   });
   client.stop();
