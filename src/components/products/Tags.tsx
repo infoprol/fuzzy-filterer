@@ -1,24 +1,24 @@
-"use client";
+'use client'
 
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from 'next/navigation'
 export interface TagsProps {
-  availableTags: string[];
-  activeTags: string[];
-  onTagPicked: (tags: string) => void;
+  availableTags: string[]
+  activeTags: string[]
+  onTagPicked: (tags: string) => void
 }
 
 const Tags = (props: TagsProps) => {
-  const router = useRouter();
+  const router = useRouter()
 
-  const { activeTags, availableTags, onTagPicked } = props;
+  const { activeTags, availableTags, onTagPicked } = props
   const baseTagClass =
-    "p-1 text-center rounded-lg flex flex-col justify-center h-fit w-fit m-[0.2rem] text-align-center border-indigo-600 hover:cursor-pointer hover:shadow-md hover:shadow-indigo-400";
-  const inactiveTagClass = `bg-sky-300 ${baseTagClass}`;
-  const activeTagClass = `bg-[#fcd34d] brightness-200 drop-shadow-2xl ${baseTagClass} border-4 border-lemon-600`;
+    'p-1 text-center rounded-lg flex flex-col justify-center h-fit w-fit m-[0.2rem] text-align-center border-indigo-600 hover:cursor-pointer hover:shadow-md hover:shadow-indigo-400'
+  const inactiveTagClass = `bg-sky-300 ${baseTagClass}`
+  const activeTagClass = `bg-[#fcd34d] brightness-200 drop-shadow-2xl ${baseTagClass} border-4 border-lemon-600`
 
   return (
     <div>
-      <ul className="m-[1em] flex flex-wrap justify-center list-none">
+      <ul className='m-[1em] flex flex-wrap justify-center list-none'>
         {availableTags.map((tag, indx) => {
           return (
             <li
@@ -26,13 +26,13 @@ const Tags = (props: TagsProps) => {
                 activeTags.includes(tag) ? activeTagClass : inactiveTagClass
               }
               key={indx}
-              onClick={(e) => onTagPicked(tag)}
+              onClick={e => onTagPicked(tag)}
             >{`${tag}`}</li>
-          );
+          )
         })}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default Tags;
+export default Tags

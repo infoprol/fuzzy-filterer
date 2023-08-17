@@ -4,5 +4,5 @@ export default function Loading() {
       <h3>please enjoy your trip through this door...</h3>
       <em>(querying graphql for product..)</em>
     </div>
-  );
+  )
 }

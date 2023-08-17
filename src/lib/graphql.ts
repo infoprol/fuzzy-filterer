@@ -1,13 +1,13 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export interface GetProductInput {
-  id: string;
+  id: string
 }
 export interface SearchProductsInput {
-  searchText: string;
-  tags: string[];
+  searchText: string
+  tags: string[]
 }
-export type GetTagsInput = void;
+export type GetTagsInput = void
 
 // technically not a type, but...
 export const typeDefs = gql`
@@ -27,7 +27,7 @@ export const typeDefs = gql`
     getProduct(id: String!): Product
     getTags: [String!]!
   }
-`;
+`
 
 export const GET_PRODUCT_QUERY = gql`
   query Query($getProductId: String!) {
@@ -42,7 +42,7 @@ export const GET_PRODUCT_QUERY = gql`
       tags
     }
   }
-`;
+`
 
 const SEARCH_QUERY = gql`
   query SearchProducts($searchText: String = "", $tags: [String] = []) {
@@ -57,4 +57,4 @@ const SEARCH_QUERY = gql`
       legacyId
     }
   }
-`;
+`

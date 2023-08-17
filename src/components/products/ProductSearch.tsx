@@ -1,38 +1,38 @@
-"use client";
+'use client'
 
-import { Product } from "@/lib/types";
-import { Tags, SearchBar, SearchResults } from "@/components/products";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { toQs, DEBOUNCE_MILLI_SEC } from "@/lib";
+import { Product } from '@/lib/types'
+import { Tags, SearchBar, SearchResults } from '@/components/products'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { toQs, DEBOUNCE_MILLI_SEC } from '@/lib'
 
 export type Props = {
-  searchText: string;
-  availableTags: string[];
-  activeTags: string[];
-  products: Product[];
-};
+  searchText: string
+  availableTags: string[]
+  activeTags: string[]
+  products: Product[]
+}
 
 export default function ProductSearch(props: Props) {
-  const [searchText, setSearchText] = useState<string>(`${props.searchText}`);
-  const [activeTags, setActiveTags] = useState<string[]>([...props.activeTags]);
-  const router = useRouter();
+  const [searchText, setSearchText] = useState<string>(`${props.searchText}`)
+  const [activeTags, setActiveTags] = useState<string[]>([...props.activeTags])
+  const router = useRouter()
 
   const onTagPicked = (t: string) => {
     const aa = activeTags.includes(t)
-      ? setActiveTags(activeTags.filter((elem) => elem !== t))
-      : setActiveTags([...activeTags, t]);
-  };
+      ? setActiveTags(activeTags.filter(elem => elem !== t))
+      : setActiveTags([...activeTags, t])
+  }
 
   useEffect(() => {
     const debounced = setTimeout(() => {
       const qs = toQs({
         searchText,
         tags: activeTags,
-      });
-      router.push(`/products/?${qs}`);
-    }, DEBOUNCE_MILLI_SEC);
-  }, [activeTags, router, searchText]);
+      })
+      router.push(`/products/?${qs}`)
+    }, DEBOUNCE_MILLI_SEC)
+  }, [activeTags, router, searchText])
 
   return (
     <div>
@@ -51,5 +51,5 @@ export default function ProductSearch(props: Props) {
         <SearchResults products={props.products} />
       </div>
     </div>
-  );
+  )
 }

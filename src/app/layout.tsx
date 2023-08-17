@@ -1,21 +1,21 @@
-import React, { Suspense } from "react";
-import { Metadata } from "next";
-import WrappedProviders from "@/app/WrappedProviders";
+import React, { Suspense } from 'react'
+import { Metadata } from 'next'
+import WrappedProviders from '@/app/WrappedProviders'
 
-import "./output.css";
+import './output.css'
 
 export const metadata: Metadata = {
-  title: "FF - the Fuzzy Fiterer",
-  description: "filtering fuzzily",
-};
+  title: 'FF - the Fuzzy Fiterer',
+  description: 'filtering fuzzily',
+}
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
       <body>
         <WrappedProviders>
           <div>
@@ -36,5 +36,5 @@ export default function RootLayout({
         </WrappedProviders>
       </body>
     </html>
-  );
+  )
 }

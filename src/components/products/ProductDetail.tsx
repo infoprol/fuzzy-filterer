@@ -1,16 +1,16 @@
-"use client";
+'use client'
 
-import { useRouter } from "next/navigation";
-import Tags from "./Tags";
-import { Product } from "@/lib/types";
-import Image from "next/image";
+import { useRouter } from 'next/navigation'
+import Tags from './Tags'
+import { Product } from '@/lib/types'
+import Image from 'next/image'
 
 export default function ProductDetail({ product }: { product: Product }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const onTagPicked = (tag: string) => {
-    router.push(`/products/?searchText=&tags=${tag}`);
-  };
+    router.push(`/products/?searchText=&tags=${tag}`)
+  }
 
   return (
     <>
@@ -26,7 +26,7 @@ export default function ProductDetail({ product }: { product: Product }) {
         <p>{product.about}</p>
         <Image
           src={`/img/${product.legacyId}.png`}
-          alt=""
+          alt=''
           height={480}
           width={480}
         />
@@ -34,5 +34,5 @@ export default function ProductDetail({ product }: { product: Product }) {
         <pre>{JSON.stringify(product, null, 2)}</pre>
       </div>
     </>
-  );
+  )
 }

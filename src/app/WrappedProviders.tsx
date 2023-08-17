@@ -1,9 +1,15 @@
-"use client"
+'use client'
 
-import { ApolloProviderWrapper } from "./ApolloProviderWrapper"
+import { ApolloProviderWrapper } from './ApolloProviderWrapper'
 
-export default function WrappedProviders({ children }: { children: React.ReactNode }) {
-  return <>
-  <ApolloProviderWrapper>{children}</ApolloProviderWrapper>
-  </>
+export default function WrappedProviders({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <>
+      <ApolloProviderWrapper>{children}</ApolloProviderWrapper>
+    </>
+  )
 }

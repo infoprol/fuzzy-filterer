@@ -2,7 +2,7 @@
  * @link https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
  */
 
-import { useEffect, MutableRefObject } from "react";
+import { useEffect, MutableRefObject } from 'react'
 
 const useOutsideClick = (
   ref: MutableRefObject<HTMLElement | null>,
@@ -16,17 +16,17 @@ const useOutsideClick = (
         evt?.target &&
         !ref.current.contains(evt?.target as Node)
       )
-        cbIfOutside();
+        cbIfOutside()
       // else we are inside
-      else cbIfInside();
-    };
+      else cbIfInside()
+    }
 
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside)
     //cleanup
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [cbIfOutside, cbIfInside, ref]);
-};
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [cbIfOutside, cbIfInside, ref])
+}
 
-export default useOutsideClick;
+export default useOutsideClick

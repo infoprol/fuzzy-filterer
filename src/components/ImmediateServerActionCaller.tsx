@@ -1,6 +1,6 @@
-"use client";
+'use client'
 
-import { startTransition, useEffect, useTransition } from "react";
+import { startTransition, useEffect, useTransition } from 'react'
 
 /***
  * this client component simply accepts a function via its props and calls that function using the
@@ -18,7 +18,7 @@ import { startTransition, useEffect, useTransition } from "react";
  */
 
 function ImmediateServerActionCaller({ callMe }: { callMe: () => void }) {
-  const [_, startTransaction] = useTransition();
+  const [_, startTransaction] = useTransition()
 
   // we leave the deps array empty because we want this to just execute callMe()
   // once on load and that is it.
@@ -26,8 +26,8 @@ function ImmediateServerActionCaller({ callMe }: { callMe: () => void }) {
     () => startTransition(() => callMe()),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
-  );
+  )
 
-  return <></>;
+  return <></>
 }
-export default ImmediateServerActionCaller;
+export default ImmediateServerActionCaller
