@@ -6,7 +6,7 @@
     "dev": "concurrently \"next dev\" \"tailwind --input src/app/globals.css --output src/app/output.css --watch\"",
     "build": "tailwind --input src/app/globals.css --output src/app/output.css && next build",
     "start": "next start",
-    "lint": "npm run prettier:fix && next lint",
+    "lint": "next lint",
     "prettier": "prettier src --check",
     "prettier:fix": "prettier -- --write",
     "build:gql": "graphql-codegen --config codegen.ts",
