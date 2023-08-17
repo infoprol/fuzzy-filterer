@@ -6,8 +6,6 @@ export default function ProductsLayout({
 }: {
   children: React.ReactNode;
 }) {
-  console.log(`rendering /products layout...`);
-
   return (
     <>
       {children}

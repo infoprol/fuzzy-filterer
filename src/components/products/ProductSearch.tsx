@@ -18,10 +18,6 @@ export default function ProductSearch(props: Props) {
   const [activeTags, setActiveTags] = useState<string[]>([...props.activeTags]);
   const router = useRouter();
 
-  console.log(
-    `ProductSearch rendering with products=${JSON.stringify(props.products)}`,
-  );
-
   const onTagPicked = (t: string) => {
     const aa = activeTags.includes(t)
       ? setActiveTags(activeTags.filter((elem) => elem !== t))

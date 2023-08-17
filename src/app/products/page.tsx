@@ -1,23 +1,12 @@
 import { default as pf } from "@/lib/products";
 import { parseListOfTags } from "@/lib";
-import { Product } from "@/lib/types";
-import { Tags, SearchBar, SearchResults } from "@/components/products";
-import { ComponentProps } from "react";
 import ProductSearch from "@/components/products/ProductSearch";
-import { ACTION } from "next/dist/client/components/app-router-headers";
 
 export default async function Home({
   searchParams: { searchText = "", tags = "" },
 }: {
   searchParams: { searchText: string; tags: string };
 }) {
-  console.log(
-    `rendering products ssc page - searchParams: ${JSON.stringify({
-      searchText,
-      tags,
-    })}`,
-  );
-
   const activeTags = parseListOfTags(tags) || [];
 
   const prAvailableTags = pf.getAllAvailableTags();

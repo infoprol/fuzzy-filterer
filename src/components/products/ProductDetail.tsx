@@ -18,7 +18,6 @@ export default function ProductDetail({ product }: { product: Product }) {
         availableTags={product.tags}
         activeTags={[...product.tags]}
         onTagPicked={onTagPicked}
-        // onTagPicked={(t: string[]) => {}}
       />
       <div>
         <h1>Product {product.id}</h1>

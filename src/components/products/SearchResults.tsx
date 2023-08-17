@@ -5,7 +5,6 @@ import ProductCard from "./ProductCard";
 import { Product } from "@/lib/types";
 
 const SearchResults = ({ products }: { products: Product[] }) => {
-  console.log(`SearchResults: ${JSON.stringify(products)}`);
   return (
     <div
       style={{

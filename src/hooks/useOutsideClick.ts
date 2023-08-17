@@ -2,13 +2,7 @@
  * @link https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
  */
 
-import {
-  useEffect,
-  useRef,
-  MutableRefObject,
-  ChangeEventHandler,
-  ChangeEvent,
-} from "react";
+import { useEffect, MutableRefObject } from "react";
 
 const useOutsideClick = (
   ref: MutableRefObject<HTMLElement | null>,
