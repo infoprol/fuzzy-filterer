@@ -11,7 +11,7 @@ export type GetTagsInput = void;
 
 // technically not a type, but...
 export const typeDefs = gql`
-  type ProductResult {
+  type Product {
     id: String!
     isActive: Boolean
     price: Float
@@ -23,8 +23,8 @@ export const typeDefs = gql`
   }
 
   type Query {
-    searchProducts(searchText: String, tags: [String]): [ProductResult!]!
-    getProduct(id: String!): ProductResult
+    searchProducts(searchText: String, tags: [String]): [Product!]!
+    getProduct(id: String!): Product
     getTags: [String!]!
   }
 `;

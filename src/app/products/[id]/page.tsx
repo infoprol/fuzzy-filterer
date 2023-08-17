@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 //
 
 import ProductDetail from "@/components/products/ProductDetail";
@@ -7,7 +7,11 @@ import { notFound } from "next/navigation";
 
 const { getProductById } = pf;
 
-export default function Page({ params: { id } }: { params: { id: string } }) {
+export default async function Page({
+  params: { id },
+}: {
+  params: { id: string };
+}) {
   const product = await getProductById({ id });
   if (!product) notFound();
 

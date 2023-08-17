@@ -66,5 +66,15 @@ export function makeApolloClient() {
             httpLink,
           ])
         : httpLink,
+    defaultOptions: {
+      watchQuery: {
+        fetchPolicy: "no-cache",
+        errorPolicy: "ignore",
+      },
+      query: {
+        fetchPolicy: "no-cache",
+        errorPolicy: "all",
+      },
+    },
   });
 }

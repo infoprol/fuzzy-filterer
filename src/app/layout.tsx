@@ -2,7 +2,6 @@ import React, { Suspense } from "react";
 import { Metadata } from "next";
 import WrappedProviders from "@/app/WrappedProviders";
 
-//import "./globals.css";
 import "./output.css";
 
 export const metadata: Metadata = {
@@ -20,7 +19,6 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <WrappedProviders>
-          {/* <div className={styles.mattRoot}> */}
           <div>
             <main>
               <div>

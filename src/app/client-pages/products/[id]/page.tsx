@@ -1,29 +1,27 @@
-"use client";
-
-import { GET_PRODUCT_QUERY } from "@/lib/graphql";
-import { useSuspenseQuery } from "@apollo/client";
-import { notFound, useRouter } from "next/navigation";
-import { Suspense, useState } from "react";
+import { ApolloClient, gql, useQuery, useSuspenseQuery } from "@apollo/client";
+import { notFound, useParams, useRouter } from "next/navigation";
+import { Suspense, useEffect, useState, useTransition } from "react";
 import Loading from "./loading";
-import { GET } from "@/app/api/graphql/route";
-import { Query, QueryGetProductArgs } from "@/lib/graphql-codegened/graphql";
-import { graphql } from "@/lib/graphql-codegened/gql";
-import { Product } from "@/lib/types";
-import { ProductDetail } from "@/components/products";
+//import { GET } from "@/app/api/graphql/route";
+//import { Query, QueryGetProductArgs, ProductResult } from "@/lib/graphql-codegened/graphql";
+// import { graphql } from "@/lib/graphql-codegened/client/gql";
+import ProductDetailWrapper from "@/components/products/ProductDetailWrapper";
 
-export default function Page({ params: { id } }: { params: { id: string } }) {
-  const router = useRouter();
+//
+// const GET_PRODUCT_QUERY = gql`
+//   query getProductByIdQuery($getProductId: String!) {
+//     getProduct(id: $getProductId) {
+//       ...ProductFragment
+//     }
+//   }
+// `;
 
-  const { data: product } = useSuspenseQuery<
-    Query["getProduct"],
-    QueryGetProductArgs
-  >(GET_PRODUCT_QUERY, { variables: { id } });
-
-  if (!product) notFound();
+export default function Page({ params }: { params: { id: string } }) {
+  const id = params.id as string;
 
   return (
     <Suspense fallback={<Loading />}>
-      <ProductDetail product={product as Product} />
+      <ProductDetailWrapper id={id} />
     </Suspense>
   );
 }

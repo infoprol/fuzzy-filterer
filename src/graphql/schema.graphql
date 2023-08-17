@@ -1,16 +1,17 @@
 type Product {
-  id: String!
+  id: String
   isActive: Boolean
   price: Float
-  name: String!
+  name: String
   about: String
   legacyId: String
   imageUrl: String
   tags: [String]
 }
 
-type Query {
-  searchProducts(searchText: String, tags: [String]): [Product!]!
+type Query
+type Mutation
+
+extend type Query {
   getProduct(id: String!): Product
-  getTags: [String!]!
 }
